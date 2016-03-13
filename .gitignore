@@ -1,0 +1,8 @@
+# Dependencies
+###################
+typings/
+
+# Development files
+###################
+test/*.d.ts
+*.js

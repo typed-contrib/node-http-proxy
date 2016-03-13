@@ -1,0 +1,7 @@
+{
+    "files": [
+        "typings/main.d.ts",
+        "index.d.ts",
+        "test/node-http-proxy.ts"
+    ]
+}
