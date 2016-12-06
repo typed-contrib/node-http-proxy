@@ -3,10 +3,19 @@
 // Definitions by: Maxime LUCE <https://github.com/SomaticIT/>
 // Definitions: https://github.com/typed-contrib/node-http-proxy
 
+import * as net from "net";
 import * as http from "http";
 import * as https from "https";
+import * as events from 'events';
+import * as url from 'url';
 
-declare class Server implements NodeJS.EventEmitter {
+declare type ProxyTargetUrl = string | url.Url;
+
+declare interface ErrorCallback {
+    (err: Error, req: http.IncomingMessage, res: http.ServerResponse, target?: ProxyTargetUrl): void;
+}
+
+declare class Server extends events.EventEmitter {
     /**
      * Creates the proxy server with specified options.
      */
@@ -22,14 +31,22 @@ declare class Server implements NodeJS.EventEmitter {
      * @param req - Client request.
      * @param res - Client response.
      */
-    public web(req: http.IncomingMessage, res: http.ServerResponse);
+    public web(req: http.IncomingMessage, res: http.ServerResponse): void;
     /**
      * Used for proxying regular HTTP(S) requests
      * @param req - Client request.
      * @param res - Client response.
      * @param options - Additionnal options.
      */
-    public web(req: http.IncomingMessage, res: http.ServerResponse, options: Server.ServerOptions);
+    public web(req: http.IncomingMessage, res: http.ServerResponse, options: Server.ServerOptions): void;
+    /**
+     * Used for proxying regular HTTP(S) requests
+     * @param req - Client request.
+     * @param res - Client response.
+     * @param options - Additionnal options.
+     * @param 
+     */
+    public web(req: http.IncomingMessage, res: http.ServerResponse, options: Server.ServerOptions, callback: ErrorCallback): void;
 
     /**
      * Used for proxying regular HTTP(S) requests
@@ -37,7 +54,7 @@ declare class Server implements NodeJS.EventEmitter {
      * @param socket - Client socket.
      * @param head - Client head.
      */
-    public ws(req: http.IncomingMessage, socket: any, head: any);
+    public ws(req: http.IncomingMessage, socket: any, head: any): void;
     /**
      * Used for proxying regular HTTP(S) requests
      * @param req - Client request.
@@ -45,22 +62,22 @@ declare class Server implements NodeJS.EventEmitter {
      * @param head - Client head.
      * @param options - Additionnal options.
      */
-    public ws(req: http.IncomingMessage, socket: any, head: any, options: Server.ServerOptions);
+    public ws(req: http.IncomingMessage, socket: any, head: any, options: Server.ServerOptions): void;
 
     /**
      * A function that wraps the object in a webserver, for your convenience
      * @param port - Port to listen on
      */
-    public listen(port: number);
+    public listen(port: number): Server;
 
     /**
      * A function that closes the inner webserver and stops listening on given port
      */
-    public close();
+    public close(): void;
     /**
      * A function that closes the inner webserver and stops listening on given port
      */
-    public close(callback: Function);
+    public close(callback: Function): void;
 
     /**
      * Creates the proxy server.
@@ -100,6 +117,15 @@ declare class Server implements NodeJS.EventEmitter {
 
     addListener(event: string, listener: Function): this;
     on(event: string, listener: Function): this;
+    on(event: 'error', listener: ErrorCallback): this;
+    on(event: 'start', listener: (req: http.IncomingMessage, res: http.ServerResponse, target: ProxyTargetUrl) => void): this;
+    on(event: 'proxyReq', listener: (proxyReq: http.ClientRequest, req: http.IncomingMessage, res: http.ServerResponse, options: Server.ServerOptions) => void): this;
+    on(event: 'proxyRes', listener: (proxyRes: http.IncomingMessage, req: http.IncomingMessage, res: http.ServerResponse) => void): this;
+    on(event: 'proxyReqWs', listener: (proxyReq: http.ClientRequest, req: http.IncomingMessage, socket: net.Socket, options: Server.ServerOptions, head: any) => void): this;
+    on(event: 'econnreset', listener: (err: Error, req: http.IncomingMessage, res: http.ServerResponse, target: ProxyTargetUrl) => void): this;
+    on(event: 'end', listener: (req: http.IncomingMessage, res: http.ServerResponse, proxyRes: http.IncomingMessage) => void): this;
+    on(event: 'close', listener: (proxyRes: http.IncomingMessage, proxySocket: net.Socket, proxyHead: any) => void): this;
+
     once(event: string, listener: Function): this;
     removeListener(event: string, listener: Function): this;
     removeAllListeners(event?: string): this;

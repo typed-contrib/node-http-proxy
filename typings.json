@@ -1,7 +1,7 @@
 {
     "name": "http-proxy",
     "main": "index.d.ts",
-    "ambientDevDependencies": {
+    "globalDevDependencies": {
         "node": "registry:dt/node#4.0.0+20160311162451"
     },
     "devDependencies": {

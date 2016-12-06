@@ -1,7 +1,6 @@
 {
-    "files": [
-        "typings/main.d.ts",
-        "index.d.ts",
-        "test/node-http-proxy.ts"
-    ]
+    "compilerOptions": {
+        "strictNullChecks": true,
+        "noImplicitAny": true  
+    }
 }
