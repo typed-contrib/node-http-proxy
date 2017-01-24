@@ -1,0 +1,30 @@
+{
+  "name": "@types/http-proxy",
+  "version": "1.12.0",
+  "description": "Typescript typings definitions for http-proxy",
+  "author": "typed-contrib",
+  "license": "MIT",
+  "homepage": "https://github.com/typed-contrib/node-http-proxy#readme",
+  "main": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typed-contrib/node-http-proxy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/typed-contrib/node-http-proxy/issues"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "typings",
+    "definitions",
+    "typescript",
+    "http-proxy",
+    "node-http-proxy",
+    "typed-contrib",
+    "typed",
+    "types"
+    "tsd"
+  ]
+}
