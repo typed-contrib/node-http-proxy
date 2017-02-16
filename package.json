@@ -24,7 +24,7 @@
     "node-http-proxy",
     "typed-contrib",
     "typed",
-    "types"
+    "types",
     "tsd"
   ]
 }
